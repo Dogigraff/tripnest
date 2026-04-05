@@ -1,0 +1,142 @@
+import express, { Request, Response } from 'express';
+import { db } from '../db/database';
+import { authenticate } from '../middleware/auth';
+import { broadcast } from '../websocket';
+import { checkPermission } from '../services/permissions';
+import { AuthRequest } from '../types';
+import {
+  verifyTripAccess,
+  listReservations,
+  createReservation,
+  updatePositions,
+  getReservation,
+  updateReservation,
+  deleteReservation,
+} from '../services/reservationService';
+
+const router = express.Router({ mergeParams: true });
+
+router.get('/', authenticate, (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const { tripId } = req.params;
+
+  const trip = verifyTripAccess(tripId, authReq.user.id);
+  if (!trip) return res.status(404).json({ error: 'Trip not found' });
+
+  const reservations = listReservations(tripId);
+  res.json({ reservations });
+});
+
+router.post('/', authenticate, (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const { tripId } = req.params;
+  const { title, reservation_time, reservation_end_time, location, confirmation_number, notes, day_id, place_id, assignment_id, status, type, accommodation_id, metadata, create_accommodation } = req.body;
+
+  const trip = verifyTripAccess(tripId, authReq.user.id);
+  if (!trip) return res.status(404).json({ error: 'Trip not found' });
+
+  if (!checkPermission('reservation_edit', authReq.user.role, trip.user_id, authReq.user.id, trip.user_id !== authReq.user.id))
+    return res.status(403).json({ error: 'No permission' });
+
+  if (!title) return res.status(400).json({ error: 'Title is required' });
+
+  const { reservation, accommodationCreated } = createReservation(tripId, {
+    title, reservation_time, reservation_end_time, location,
+    confirmation_number, notes, day_id, place_id, assignment_id,
+    status, type, accommodation_id, metadata, create_accommodation
+  });
+
+  if (accommodationCreated) {
+    broadcast(tripId, 'accommodation:created', {}, req.headers['x-socket-id'] as string);
+  }
+
+  res.status(201).json({ reservation });
+  broadcast(tripId, 'reservation:created', { reservation }, req.headers['x-socket-id'] as string);
+
+  // Notify trip members about new booking
+  import('../services/notifications').then(({ notifyTripMembers }) => {
+    const tripInfo = db.prepare('SELECT title FROM trips WHERE id = ?').get(tripId) as { title: string } | undefined;
+    notifyTripMembers(Number(tripId), authReq.user.id, 'booking_change', { trip: tripInfo?.title || 'Untitled', actor: authReq.user.email, booking: title, type: type || 'booking' }).catch(() => {});
+  });
+});
+
+// Batch update day_plan_position for multiple reservations (must be before /:id)
+router.put('/positions', authenticate, (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const { tripId } = req.params;
+  const { positions } = req.body;
+
+  const trip = verifyTripAccess(tripId, authReq.user.id);
+  if (!trip) return res.status(404).json({ error: 'Trip not found' });
+
+  if (!checkPermission('reservation_edit', authReq.user.role, trip.user_id, authReq.user.id, trip.user_id !== authReq.user.id))
+    return res.status(403).json({ error: 'No permission' });
+
+  if (!Array.isArray(positions)) return res.status(400).json({ error: 'positions must be an array' });
+
+  updatePositions(tripId, positions);
+
+  res.json({ success: true });
+  broadcast(tripId, 'reservation:positions', { positions }, req.headers['x-socket-id'] as string);
+});
+
+router.put('/:id', authenticate, (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const { tripId, id } = req.params;
+  const { title, reservation_time, reservation_end_time, location, confirmation_number, notes, day_id, place_id, assignment_id, status, type, accommodation_id, metadata, create_accommodation } = req.body;
+
+  const trip = verifyTripAccess(tripId, authReq.user.id);
+  if (!trip) return res.status(404).json({ error: 'Trip not found' });
+
+  if (!checkPermission('reservation_edit', authReq.user.role, trip.user_id, authReq.user.id, trip.user_id !== authReq.user.id))
+    return res.status(403).json({ error: 'No permission' });
+
+  const current = getReservation(id, tripId);
+  if (!current) return res.status(404).json({ error: 'Reservation not found' });
+
+  const { reservation, accommodationChanged } = updateReservation(id, tripId, {
+    title, reservation_time, reservation_end_time, location,
+    confirmation_number, notes, day_id, place_id, assignment_id,
+    status, type, accommodation_id, metadata, create_accommodation
+  }, current);
+
+  if (accommodationChanged) {
+    broadcast(tripId, 'accommodation:updated', {}, req.headers['x-socket-id'] as string);
+  }
+
+  res.json({ reservation });
+  broadcast(tripId, 'reservation:updated', { reservation }, req.headers['x-socket-id'] as string);
+
+  import('../services/notifications').then(({ notifyTripMembers }) => {
+    const tripInfo = db.prepare('SELECT title FROM trips WHERE id = ?').get(tripId) as { title: string } | undefined;
+    notifyTripMembers(Number(tripId), authReq.user.id, 'booking_change', { trip: tripInfo?.title || 'Untitled', actor: authReq.user.email, booking: title || current.title, type: type || current.type || 'booking' }).catch(() => {});
+  });
+});
+
+router.delete('/:id', authenticate, (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const { tripId, id } = req.params;
+
+  const trip = verifyTripAccess(tripId, authReq.user.id);
+  if (!trip) return res.status(404).json({ error: 'Trip not found' });
+
+  if (!checkPermission('reservation_edit', authReq.user.role, trip.user_id, authReq.user.id, trip.user_id !== authReq.user.id))
+    return res.status(403).json({ error: 'No permission' });
+
+  const { deleted: reservation, accommodationDeleted } = deleteReservation(id, tripId);
+  if (!reservation) return res.status(404).json({ error: 'Reservation not found' });
+
+  if (accommodationDeleted) {
+    broadcast(tripId, 'accommodation:deleted', { accommodationId: reservation.accommodation_id }, req.headers['x-socket-id'] as string);
+  }
+
+  res.json({ success: true });
+  broadcast(tripId, 'reservation:deleted', { reservationId: Number(id) }, req.headers['x-socket-id'] as string);
+
+  import('../services/notifications').then(({ notifyTripMembers }) => {
+    const tripInfo = db.prepare('SELECT title FROM trips WHERE id = ?').get(tripId) as { title: string } | undefined;
+    notifyTripMembers(Number(tripId), authReq.user.id, 'booking_change', { trip: tripInfo?.title || 'Untitled', actor: authReq.user.email, booking: reservation.title, type: reservation.type || 'booking' }).catch(() => {});
+  });
+});
+
+export default router;
