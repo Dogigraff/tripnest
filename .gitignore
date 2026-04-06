@@ -18,6 +18,8 @@ client/public/icons/*.png
 # User data
 server/data/
 server/uploads/
+data/.encryption_key
+data/.jwt_secret
 
 # Environment
 .env
