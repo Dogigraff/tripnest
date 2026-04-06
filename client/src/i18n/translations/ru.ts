@@ -304,7 +304,7 @@ const ru: Record<string, string> = {
 
   // Login
   'login.error': 'Ошибка входа. Проверьте свои учётные данные.',
-  'login.tagline': 'Ваши поездки.\nВаш план.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Планируйте поездки совместно с интерактивными картами, бюджетами и синхронизацией в реальном времени.',
   'login.features.maps': 'Интерактивные карты',
   'login.features.mapsDesc': 'Google Places, маршруты и кластеризация',

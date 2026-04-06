@@ -304,7 +304,7 @@ const br: Record<string, string | { name: string; category: string }[]> = {
 
   // Login
   'login.error': 'Falha no login. Verifique suas credenciais.',
-  'login.tagline': 'Suas viagens.\nSeu plano.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Planeje viagens em equipe com mapas interativos, orçamento e sincronização em tempo real.',
   'login.features.maps': 'Mapas interativos',
   'login.features.mapsDesc': 'Google Places, rotas e agrupamento',

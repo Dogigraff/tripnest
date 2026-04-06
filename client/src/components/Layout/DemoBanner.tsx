@@ -187,7 +187,7 @@ export default function DemoBanner(): React.ReactElement | null {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
           <img src="/icons/icon-dark.svg" alt="" style={{ width: 36, height: 36, borderRadius: 10 }} />
           <h2 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: '#111827', display: 'flex', alignItems: 'center', gap: 5 }}>
-            {t.titleBefore}<img src="/text-dark.svg" alt="TripNest" style={{ height: 18 }} />{t.titleAfter}
+            {t.titleBefore}<img src="/text-dark.png" alt="TripNest" style={{ height: 18, width: 'auto' }} />{t.titleAfter}
           </h2>
         </div>
 

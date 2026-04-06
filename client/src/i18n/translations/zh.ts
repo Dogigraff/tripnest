@@ -304,7 +304,7 @@ const zh: Record<string, string> = {
 
   // Login
   'login.error': '登录失败，请检查你的凭据。',
-  'login.tagline': '你的旅行。\n你的计划。',
+  'login.tagline': 'Where every trip begins',
   'login.description': '通过互动地图、预算管理和实时同步，协同规划旅行。',
   'login.features.maps': '互动地图',
   'login.features.mapsDesc': 'Google Places、路线和聚类',

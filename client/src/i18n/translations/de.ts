@@ -304,7 +304,7 @@ const de: Record<string, string | { name: string; category: string }[]> = {
 
   // Login
   'login.error': 'Anmeldung fehlgeschlagen. Bitte Zugangsdaten prüfen.',
-  'login.tagline': 'Deine Reisen.\nDein Plan.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Plane Reisen gemeinsam mit interaktiven Karten, Budgets und Echtzeit-Sync.',
   'login.features.maps': 'Interaktive Karten',
   'login.features.mapsDesc': 'Google Places, Routen & Clustering',

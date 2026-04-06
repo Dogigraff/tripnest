@@ -304,7 +304,7 @@ const hu: Record<string, string | { name: string; category: string }[]> = {
 
   // Bejelentkezés
   'login.error': 'Bejelentkezés sikertelen. Kérjük, ellenőrizd a megadott adatokat.',
-  'login.tagline': 'Az utazásaid.\nA terved.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Tervezz utazásokat közösen interaktív térképekkel, költségvetéssel és valós idejű szinkronizálással.',
   'login.features.maps': 'Interaktív térképek',
   'login.features.mapsDesc': 'Google Places, útvonalak és csoportosítás',

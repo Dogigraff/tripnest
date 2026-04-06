@@ -304,7 +304,7 @@ const nl: Record<string, string> = {
 
   // Login
   'login.error': 'Inloggen mislukt. Controleer je inloggegevens.',
-  'login.tagline': 'Jouw reizen.\nJouw plan.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Plan reizen samen met interactieve kaarten, budgetten en realtime synchronisatie.',
   'login.features.maps': 'Interactieve kaarten',
   'login.features.mapsDesc': 'Google Places, routes en clustering',

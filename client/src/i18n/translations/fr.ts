@@ -304,7 +304,7 @@ const fr: Record<string, string> = {
 
   // Login
   'login.error': 'Échec de la connexion. Veuillez vérifier vos identifiants.',
-  'login.tagline': 'Vos voyages.\nVotre organisation.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Planifiez vos voyages en collaboration avec des cartes interactives, des budgets et la synchronisation en temps réel.',
   'login.features.maps': 'Cartes interactives',
   'login.features.mapsDesc': 'Google Places, itinéraires et regroupement',

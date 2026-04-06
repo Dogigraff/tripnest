@@ -304,7 +304,7 @@ const cs: Record<string, string | { name: string; category: string }[]> = {
 
   // Přihlášení (Login)
   'login.error': 'Přihlášení se nezdařilo. Zkontrolujte prosím své údaje.',
-  'login.tagline': 'Vaše cesty.\nVáš plán.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Plánujte cesty společně s interaktivními mapami, rozpočty a synchronizací v reálném čase.',
   'login.features.maps': 'Interaktivní mapy',
   'login.features.mapsDesc': 'Google Places, trasy a shlukování bodů',

@@ -309,7 +309,7 @@ const ar: Record<string, string | { name: string; category: string }[]> = {
 
   // Login
   'login.error': 'فشل تسجيل الدخول. يرجى التحقق من بياناتك.',
-  'login.tagline': 'رحلاتك.\nخطتك.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'خطط لرحلاتك بشكل تعاوني مع خرائط تفاعلية وميزانيات ومزامنة لحظية.',
   'login.features.maps': 'خرائط تفاعلية',
   'login.features.mapsDesc': 'Google Places ومسارات وتجميع',

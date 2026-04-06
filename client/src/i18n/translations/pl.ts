@@ -272,7 +272,7 @@ const pl: Record<string, string | { name: string; category: string }[]> = {
 
   // Login
   'login.error': 'Logowanie nie powiodło się. Sprawdź dane logowania.',
-  'login.tagline': 'Twoje podróże.\nTwój plan.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Planuj wspólnie podróże z interaktywnymi mapami, budżetami i synchronizacją w czasie rzeczywistym.',
   'login.features.maps': 'Interaktywne mapy',
   'login.features.mapsDesc': 'Google Places, trasy i grupowanie',

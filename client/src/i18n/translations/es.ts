@@ -303,7 +303,7 @@ const es: Record<string, string> = {
 
   // Login
   'login.error': 'Inicio de sesión fallido. Revisa tus credenciales.',
-  'login.tagline': 'Tus viajes.\nTu plan.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Planifica viajes en colaboración con mapas interactivos, presupuestos y sincronización en tiempo real.',
   'login.features.maps': 'Mapas interactivos',
   'login.features.mapsDesc': 'Google Places, rutas y agrupación',

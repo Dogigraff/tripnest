@@ -304,7 +304,7 @@ const it: Record<string, string | { name: string; category: string }[]> = {
 
   // Login
   'login.error': 'Accesso fallito. Controlla le tue credenziali.',
-  'login.tagline': 'I tuoi viaggi.\nIl tuo programma.',
+  'login.tagline': 'Where every trip begins',
   'login.description': 'Programma viaggi in collaborazione con mappe interattive, budget e sincronizzazione in tempo reale.',
   'login.features.maps': 'Mappe Interattive',
   'login.features.mapsDesc': 'Google Places, percorsi e clustering',
