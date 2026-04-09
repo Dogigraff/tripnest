@@ -388,7 +388,12 @@ export default function SharedTripPage() {
             <img src="/icons/icon.svg" alt="TripNest" width="18" height="18" style={{ borderRadius: 4 }} />
             <span style={{ fontSize: 11, color: '#9ca3af' }}>{t('shared.sharedVia')} <strong style={{ color: '#6b7280' }}>TripNest</strong></span>
           </div>
-          <div style={{ marginTop: 8, fontSize: 10, color: '#d1d5db' }}>Made with <span style={{ color: '#ef4444' }}>&hearts;</span> by Maurice · <a href="https://github.com/mauriceboe/TripNest" style={{ color: '#9ca3af', textDecoration: 'none' }}>GitHub</a></div>
+          <div style={{ marginTop: 8, fontSize: 10, color: '#d1d5db' }}>
+            TripNest ·{' '}
+            <a href="https://www.aurestudio.ru/" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', textDecoration: 'none' }}>AureStudio</a>
+            {' · '}
+            <a href="https://t.me/aurestudio" target="_blank" rel="noopener noreferrer" style={{ color: '#9ca3af', textDecoration: 'none' }}>Telegram</a>
+          </div>
         </div>
       </div>
     </div>

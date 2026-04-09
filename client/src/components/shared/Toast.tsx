@@ -75,20 +75,20 @@ export function ToastContainer() {
           from { opacity: 1; transform: translateY(0) scale(1); }
           to { opacity: 0; transform: translateY(8px) scale(0.95); }
         }
-        .nomad-toast {
+        .tripnest-toast {
           background: rgba(255, 255, 255, 0.65);
           border: 1px solid rgba(0, 0, 0, 0.06);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 0.5px 0 rgba(255,255,255,0.5);
         }
-        .nomad-toast span { color: rgba(0, 0, 0, 0.8) !important; }
-        .dark .nomad-toast {
+        .tripnest-toast span { color: rgba(0, 0, 0, 0.8) !important; }
+        .dark .tripnest-toast {
           background: rgba(30, 30, 40, 0.55);
           border: 1px solid rgba(255, 255, 255, 0.1);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 0.5px 0 rgba(255,255,255,0.08);
         }
-        .dark .nomad-toast span { color: rgba(255, 255, 255, 0.9) !important; }
-        .nomad-toast-close { color: rgba(0, 0, 0, 0.4); }
-        .dark .nomad-toast-close { color: rgba(255, 255, 255, 0.4); }
+        .dark .tripnest-toast span { color: rgba(255, 255, 255, 0.9) !important; }
+        .tripnest-toast-close { color: rgba(0, 0, 0, 0.4); }
+        .dark .tripnest-toast-close { color: rgba(255, 255, 255, 0.4); }
       `}</style>
       <div style={{
         position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
@@ -98,7 +98,7 @@ export function ToastContainer() {
         {toasts.map(toast => (
           <div
             key={toast.id}
-            className="nomad-toast"
+            className="tripnest-toast"
             style={{
               display: 'flex', alignItems: 'center', gap: 10,
               padding: '10px 14px',
@@ -119,7 +119,7 @@ export function ToastContainer() {
             </span>
             <button
               onClick={() => removeToast(toast.id)}
-              className="nomad-toast-close"
+              className="tripnest-toast-close"
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 display: 'flex', padding: 2,

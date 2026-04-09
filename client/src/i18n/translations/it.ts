@@ -269,7 +269,7 @@ const it: Record<string, string | { name: string; category: string }[]> = {
   'admin.smtp.title': 'Email e notifiche',
   'admin.smtp.hint': 'Configurazione SMTP per l\'invio delle notifiche via e-mail.',
   'admin.smtp.testButton': 'Invia email di prova',
-  'admin.webhook.hint': 'Invia notifiche a un webhook esterno (Discord, Slack, ecc.).',
+  'admin.webhook.hint': 'Invia notifiche a un webhook esterno (AureStudio, Slack, ecc.).',
   'admin.smtp.testSuccess': 'Email di prova inviata con successo',
   'admin.smtp.testFailed': 'Invio email di prova fallito',
   'dayplan.icsTooltip': 'Esporta calendario (ICS)',
@@ -1543,4 +1543,4 @@ const it: Record<string, string | { name: string; category: string }[]> = {
   'notifications.test.tripText': 'Notifica di test per il viaggio "{trip}".',
 }
 
-export default it
+export default it

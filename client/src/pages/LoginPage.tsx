@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
-import { useSettingsStore } from '../store/settingsStore'
-import { SUPPORTED_LANGUAGES, useTranslation } from '../i18n'
+import { useTranslation } from '../i18n'
 import { authApi } from '../api/client'
 import { getApiErrorMessage } from '../types'
-import { Plane, Eye, EyeOff, Mail, Lock, MapPin, Calendar, Package, User, Globe, Zap, Users, Wallet, Map, CheckSquare, BookMarked, FolderOpen, Route, Shield, KeyRound } from 'lucide-react'
+import LanguageSwitcher from '../components/Layout/LanguageSwitcher'
+import { Plane, Eye, EyeOff, Mail, Lock, MapPin, Calendar, Package, User, Zap, Users, Wallet, Map, CheckSquare, BookMarked, FolderOpen, Route, Shield, KeyRound } from 'lucide-react'
 
 interface AppConfig {
   has_users: boolean
@@ -18,7 +18,7 @@ interface AppConfig {
 }
 
 export default function LoginPage(): React.ReactElement {
-  const { t, language } = useTranslation()
+  const { t } = useTranslation()
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -31,8 +31,8 @@ export default function LoginPage(): React.ReactElement {
   const [inviteValid, setInviteValid] = useState<boolean>(false)
 
   const { login, register, demoLogin, completeMfaLogin, loadUser } = useAuthStore()
-  const { setLanguageLocal } = useSettingsStore()
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -115,6 +115,15 @@ export default function LoginPage(): React.ReactElement {
   const [savedLoginPassword, setSavedLoginPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
+  useEffect(() => {
+    if (!appConfig || passwordChangeStep || mfaStep) return
+    if (location.pathname === '/register') {
+      setMode('register')
+    } else if (location.pathname === '/login') {
+      if (appConfig.has_users) setMode('login')
+    }
+  }, [location.pathname, appConfig, passwordChangeStep, mfaStep])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
@@ -341,29 +350,7 @@ export default function LoginPage(): React.ReactElement {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif", position: 'relative' }}>
 
-      {/* Language toggle */}
-      <button
-        onClick={() => {
-          const languages = SUPPORTED_LANGUAGES.map(({ value }) => value)
-          const currentIndex = languages.findIndex(code => code === language)
-          const nextLanguage = languages[(currentIndex + 1) % languages.length]
-          setLanguageLocal(nextLanguage)
-        }}
-        style={{
-          position: 'absolute', top: 16, right: 16, zIndex: 10,
-          display: 'flex', alignItems: 'center', gap: 6,
-          padding: '6px 12px', borderRadius: 99,
-          background: 'rgba(0,0,0,0.06)', border: 'none',
-          fontSize: 13, fontWeight: 500, color: '#374151',
-          cursor: 'pointer', fontFamily: 'inherit',
-          transition: 'background 0.15s',
-        }}
-        onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => e.currentTarget.style.background = 'rgba(0,0,0,0.1)'}
-        onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => e.currentTarget.style.background = 'rgba(0,0,0,0.06)'}
-      >
-        <Globe size={14} />
-        {language.toUpperCase()}
-      </button>
+      <LanguageSwitcher variant="login" />
 
       {/* Left — branding */}
       <div style={{ display: 'none', width: '55%', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '60px 48px', position: 'relative', overflow: 'hidden' }}
@@ -496,7 +483,10 @@ export default function LoginPage(): React.ReactElement {
           </div>
 
           <p style={{ marginTop: 36, fontSize: 11.5, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.03em' }}>
-            {t('login.selfHosted')}
+            Developed by{' '}
+            <a href="https://www.aurestudio.ru/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+              AureStudio
+            </a>
           </p>
         </div>
       </div>
@@ -697,18 +687,35 @@ export default function LoginPage(): React.ReactElement {
                   : <><Plane size={16} />{passwordChangeStep ? t('settings.updatePassword') : mode === 'register' ? t('login.createAccount') : (mode === 'login' && mfaStep ? t('login.mfaVerify') : t('login.signIn'))}</>
                 }
               </button>
-            </form>
 
-            {/* Toggle login/register */}
-            {showRegisterOption && appConfig?.has_users && !appConfig?.demo_mode && !passwordChangeStep && (
-              <p style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: '#9ca3af' }}>
-                {mode === 'login' ? t('login.noAccount') + ' ' : t('login.hasAccount') + ' '}
-                <button onClick={() => { setMode(m => m === 'login' ? 'register' : 'login'); setError(''); setMfaStep(false); setMfaToken(''); setMfaCode('') }}
-                  style={{ background: 'none', border: 'none', color: '#111827', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13 }}>
-                  {mode === 'login' ? t('login.register') : t('login.signIn')}
-                </button>
-              </p>
-            )}
+              {mode === 'login' && !mfaStep && showRegisterOption && !appConfig?.demo_mode && !passwordChangeStep && (
+                <p style={{ textAlign: 'center', marginTop: 4, fontSize: 13, color: '#6b7280' }}>
+                  {t('login.noAccount')}{' '}
+                  <Link
+                    to="/register"
+                    style={{ color: '#111827', fontWeight: 600, textDecoration: 'none' }}
+                    onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline' }}
+                    onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none' }}
+                  >
+                    {t('login.register')}
+                  </Link>
+                </p>
+              )}
+
+              {mode === 'register' && showRegisterOption && appConfig?.has_users && !appConfig?.demo_mode && !passwordChangeStep && (
+                <p style={{ textAlign: 'center', marginTop: 4, fontSize: 13, color: '#6b7280' }}>
+                  {t('register.hasAccount')}{' '}
+                  <Link
+                    to="/login"
+                    style={{ color: '#111827', fontWeight: 600, textDecoration: 'none' }}
+                    onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline' }}
+                    onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none' }}
+                  >
+                    {t('register.signIn')}
+                  </Link>
+                </p>
+              )}
+            </form>
             </>)}
           </div>
 

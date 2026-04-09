@@ -179,7 +179,7 @@ const en: Record<string, string | { name: string; category: string }[]> = {
   'admin.smtp.title': 'Email & Notifications',
   'admin.smtp.hint': 'SMTP configuration for sending email notifications.',
   'admin.smtp.testButton': 'Send test email',
-  'admin.webhook.hint': 'Send notifications to an external webhook (Discord, Slack, etc.).',
+  'admin.webhook.hint': 'Send notifications to an external webhook (AureStudio, Slack, etc.).',
   'admin.smtp.testSuccess': 'Test email sent successfully',
   'admin.smtp.testFailed': 'Test email failed',
   'settings.notificationsDisabled': 'Notifications are not configured. Ask an admin to enable email or webhook notifications.',

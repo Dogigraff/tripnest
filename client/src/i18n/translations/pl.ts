@@ -150,7 +150,7 @@ const pl: Record<string, string | { name: string; category: string }[]> = {
   'settings.notifyPackingTagged': 'Lista pakowania: przypisania',
   'settings.notifyWebhook': 'Powiadomienia Webhook',
   'admin.smtp.title': 'E-maile i powiadomienia',
-  'admin.smtp.hint': 'Konfiguracja SMTP dla powiadomień e-mail. Opcjonalnie: URL Webhooka dla Discorda, Slacka, itp.',
+  'admin.smtp.hint': 'Konfiguracja SMTP dla powiadomień e-mail. Opcjonalnie: URL Webhooka dla AureStudio, Slacka, itp.',
   'admin.smtp.testButton': 'Wyślij testowego e-maila',
   'admin.smtp.testSuccess': 'Testowy e-mail został wysłany pomyślnie',
   'admin.smtp.testFailed': 'Nie udało się wysłać testowego e-maila',

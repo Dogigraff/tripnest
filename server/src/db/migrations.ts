@@ -518,6 +518,17 @@ function runMigrations(db: Database.Database): void {
         CREATE INDEX IF NOT EXISTS idx_notifications_recipient_created ON notifications(recipient_id, created_at DESC);
       `);
     },
+    () => {
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS telegram_users (
+          telegram_user_id INTEGER PRIMARY KEY,
+          user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          last_trip_id INTEGER REFERENCES trips(id) ON DELETE SET NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE INDEX IF NOT EXISTS idx_telegram_users_user_id ON telegram_users(user_id);
+      `);
+    },
   ];
 
   if (currentVersion < migrations.length) {

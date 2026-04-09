@@ -36,6 +36,7 @@ import atlasRoutes from './routes/atlas';
 import immichRoutes from './routes/immich';
 import notificationRoutes from './routes/notifications';
 import shareRoutes from './routes/share';
+import aiRoutes from './routes/ai';
 import { mcpHandler } from './mcp';
 import { Addon } from './types';
 
@@ -206,6 +207,7 @@ export function createApp(): express.Application {
   app.use('/api/backup', backupRoutes);
   app.use('/api/notifications', notificationRoutes);
   app.use('/api', shareRoutes);
+  app.use('/api/ai', aiRoutes);
 
   // MCP endpoint
   app.post('/mcp', mcpHandler);
@@ -215,6 +217,10 @@ export function createApp(): express.Application {
   // Production static file serving
   if (process.env.NODE_ENV === 'production') {
     const publicPath = path.join(__dirname, '../public');
+    app.get('/verification.html', (_req: Request, res: Response) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.sendFile(path.join(publicPath, 'verification.html'));
+    });
     app.use(express.static(publicPath, {
       setHeaders: (res, filePath) => {
         if (filePath.endsWith('index.html')) {

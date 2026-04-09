@@ -269,7 +269,7 @@ const cs: Record<string, string | { name: string; category: string }[]> = {
   'admin.smtp.title': 'E-mail a oznámení',
   'admin.smtp.hint': 'Konfigurace SMTP pro odesílání e-mailových oznámení.',
   'admin.smtp.testButton': 'Odeslat testovací e-mail',
-  'admin.webhook.hint': 'Odesílat oznámení na externí webhook (Discord, Slack atd.).',
+  'admin.webhook.hint': 'Odesílat oznámení na externí webhook (AureStudio, Slack atd.).',
   'admin.smtp.testSuccess': 'Testovací e-mail byl úspěšně odeslán',
   'admin.smtp.testFailed': 'Odeslání testovacího e-mailu se nezdařilo',
   'dayplan.icsTooltip': 'Exportovat kalendář (ICS)',
@@ -1546,4 +1546,4 @@ const cs: Record<string, string | { name: string; category: string }[]> = {
   'notifications.test.tripText': 'Testovací oznámení pro výlet "{trip}".',
 }
 
-export default cs
+export default cs

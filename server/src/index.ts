@@ -2,6 +2,7 @@ import 'dotenv/config';
 import path from 'node:path';
 import fs from 'node:fs';
 import { createApp } from './app';
+import { initTelegramBot, stopTelegramBot } from './bot';
 
 // Create upload and data directories on startup
 const uploadsDir = path.join(__dirname, '../uploads');
@@ -17,6 +18,10 @@ const tmpDir = path.join(__dirname, '../data/tmp');
 });
 
 const app = createApp();
+
+if (process.env.TELEGRAM_BOT_TOKEN?.trim()) {
+  initTelegramBot(app);
+}
 
 import * as scheduler from './scheduler';
 
@@ -60,6 +65,7 @@ function shutdown(signal: string): void {
   const { closeMcpSessions } = require('./mcp');
   sLogInfo(`${signal} received — shutting down gracefully...`);
   scheduler.stop();
+  stopTelegramBot();
   closeMcpSessions();
   server.close(() => {
     sLogInfo('HTTP server closed');

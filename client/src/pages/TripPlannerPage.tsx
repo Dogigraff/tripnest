@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTripStore } from '../store/tripStore'
+import { useAuthStore } from '../store/authStore'
 import { useCanDo } from '../store/permissionsStore'
 import { useSettingsStore } from '../store/settingsStore'
 import { MapView } from '../components/Map/MapView'
@@ -22,10 +23,11 @@ import BudgetPanel from '../components/Budget/BudgetPanel'
 import CollabPanel from '../components/Collab/CollabPanel'
 import Navbar from '../components/Layout/Navbar'
 import { useToast } from '../components/shared/Toast'
-import { Map, X, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Ticket, PackageCheck, Wallet, FolderOpen, Camera, Users } from 'lucide-react'
+import { Map, X, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Ticket, PackageCheck, Wallet, FolderOpen, Camera, Users, Sparkles } from 'lucide-react'
 import { useTranslation } from '../i18n'
 import { addonsApi, accommodationsApi, authApi, tripsApi, assignmentsApi, mapsApi } from '../api/client'
 import ConfirmDialog from '../components/shared/ConfirmDialog'
+import AIPlannerModal from '../components/AIPlannerModal'
 import { useResizablePanels } from '../hooks/useResizablePanels'
 import { useTripWebSocket } from '../hooks/useTripWebSocket'
 import { useRouteCalculation } from '../hooks/useRouteCalculation'
@@ -39,6 +41,7 @@ export default function TripPlannerPage(): React.ReactElement | null {
   const toast = useToast()
   const { t, language } = useTranslation()
   const { settings } = useSettingsStore()
+  const currentUser = useAuthStore(s => s.user)
   const trip = useTripStore(s => s.trip)
   const days = useTripStore(s => s.days)
   const places = useTripStore(s => s.places)
@@ -115,6 +118,7 @@ export default function TripPlannerPage(): React.ReactElement | null {
   const [editingAssignmentId, setEditingAssignmentId] = useState<number | null>(null)
   const [showTripForm, setShowTripForm] = useState<boolean>(false)
   const [showMembersModal, setShowMembersModal] = useState<boolean>(false)
+  const [showAIPlanner, setShowAIPlanner] = useState<boolean>(false)
   const [showReservationModal, setShowReservationModal] = useState<boolean>(false)
   const [editingReservation, setEditingReservation] = useState<Reservation | null>(null)
   const [fitKey, setFitKey] = useState<number>(0)
@@ -500,7 +504,24 @@ export default function TripPlannerPage(): React.ReactElement | null {
 
   return (
     <div style={{ position: 'fixed', inset: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', ...fontStyle }}>
-      <Navbar tripTitle={trip.title} tripId={tripId} showBack onBack={() => navigate('/dashboard')} onShare={() => setShowMembersModal(true)} />
+      <Navbar
+        tripTitle={trip.title} tripId={tripId} showBack onBack={() => navigate('/dashboard')} onShare={() => setShowMembersModal(true)}
+        tripExtra={
+          can('place_edit', trip) ? (
+            <button
+              type="button"
+              onClick={() => setShowAIPlanner(true)}
+              className="flex items-center gap-1.5 py-1.5 px-3 rounded-lg border transition-colors text-sm font-medium flex-shrink-0"
+              style={{ borderColor: 'var(--border-primary)', color: 'var(--text-secondary)', background: 'var(--bg-card)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-hover)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg-card)' }}
+            >
+              <Sparkles className="w-4 h-4" />
+              <span className="hidden sm:inline">AI Planner</span>
+            </button>
+          ) : undefined
+        }
+      />
 
       <div style={{
         position: 'fixed', top: 'var(--nav-h)', left: 0, right: 0, zIndex: 40,
@@ -688,7 +709,7 @@ export default function TripPlannerPage(): React.ReactElement | null {
             </div>
 
             {/* Mobile sidebar buttons — portal to body to escape Leaflet touch handling */}
-            {activeTab === 'plan' && !mobileSidebarOpen && !showPlaceForm && !showMembersModal && !showReservationModal && ReactDOM.createPortal(
+            {activeTab === 'plan' && !mobileSidebarOpen && !showPlaceForm && !showMembersModal && !showReservationModal && !showAIPlanner && ReactDOM.createPortal(
               <div className="flex md:hidden" style={{ position: 'fixed', top: 'calc(var(--nav-h) + 44px + 12px)', left: 12, right: 12, justifyContent: 'space-between', zIndex: 100, pointerEvents: 'none' }}>
                 <button onClick={() => setMobileSidebarOpen('left')}
                   style={{ pointerEvents: 'auto', background: 'var(--bg-card)', color: 'var(--text-primary)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-primary)', borderRadius: 24, padding: '11px 24px', fontSize: 15, fontWeight: 600, cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)', minHeight: 44, fontFamily: 'inherit', touchAction: 'manipulation' }}>
@@ -905,6 +926,15 @@ export default function TripPlannerPage(): React.ReactElement | null {
 
       <PlaceFormModal isOpen={showPlaceForm} onClose={() => { setShowPlaceForm(false); setEditingPlace(null); setEditingAssignmentId(null); setPrefillCoords(null) }} onSave={handleSavePlace} place={editingPlace} prefillCoords={prefillCoords} assignmentId={editingAssignmentId} dayAssignments={editingAssignmentId ? Object.values(assignments).flat() : []} tripId={tripId} categories={categories} onCategoryCreated={cat => tripActions.addCategory?.(cat)} />
       <TripFormModal isOpen={showTripForm} onClose={() => setShowTripForm(false)} onSave={async (data) => { await tripActions.updateTrip(tripId, data); toast.success(t('trip.toast.tripUpdated')) }} trip={trip} />
+      {currentUser && tripId && (
+        <AIPlannerModal
+          isOpen={showAIPlanner}
+          onClose={() => setShowAIPlanner(false)}
+          tripId={tripId}
+          userId={currentUser.id}
+          onSuccess={() => { void tripActions.loadTrip(tripId) }}
+        />
+      )}
       <TripMembersModal isOpen={showMembersModal} onClose={() => setShowMembersModal(false)} tripId={tripId} tripTitle={trip?.title} />
       <ReservationModal isOpen={showReservationModal} onClose={() => { setShowReservationModal(false); setEditingReservation(null) }} onSave={handleSaveReservation} reservation={editingReservation} days={days} places={places} assignments={assignments} selectedDayId={selectedDayId} files={files} onFileUpload={canUploadFiles ? (fd) => tripActions.addFile(tripId, fd) : undefined} onFileDelete={(id) => tripActions.deleteFile(tripId, id)} accommodations={tripAccommodations} />
       <ConfirmDialog

@@ -182,7 +182,7 @@ const zh: Record<string, string> = {
   'admin.smtp.title': '邮件与通知',
   'admin.smtp.hint': '用于发送电子邮件通知的 SMTP 配置。',
   'admin.smtp.testButton': '发送测试邮件',
-  'admin.webhook.hint': '向外部 Webhook 发送通知（Discord、Slack 等）。',
+  'admin.webhook.hint': '向外部 Webhook 发送通知（AureStudio、Slack 等）。',
   'admin.smtp.testSuccess': '测试邮件发送成功',
   'admin.smtp.testFailed': '测试邮件发送失败',
   'dayplan.icsTooltip': '导出日历 (ICS)',
@@ -1542,4 +1542,4 @@ const zh: Record<string, string> = {
   'notifications.test.tripText': '行程"{trip}"的测试通知。',
 }
 
-export default zh
+export default zh

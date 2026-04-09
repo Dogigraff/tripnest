@@ -18,6 +18,10 @@ client/public/icons/*.png
 # User data
 server/data/
 server/uploads/
+uploads/
+
+# Editor / deploy backups
+*.bak
 data/.encryption_key
 data/.jwt_secret
 

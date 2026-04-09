@@ -182,7 +182,7 @@ const fr: Record<string, string> = {
   'admin.smtp.title': 'E-mail et notifications',
   'admin.smtp.hint': 'Configuration SMTP pour l\'envoi des notifications par e-mail.',
   'admin.smtp.testButton': 'Envoyer un e-mail de test',
-  'admin.webhook.hint': 'Envoyer des notifications vers un webhook externe (Discord, Slack, etc.).',
+  'admin.webhook.hint': 'Envoyer des notifications vers un webhook externe (AureStudio, Slack, etc.).',
   'admin.smtp.testSuccess': 'E-mail de test envoyé avec succès',
   'admin.smtp.testFailed': 'Échec de l\'e-mail de test',
   'dayplan.icsTooltip': 'Exporter le calendrier (ICS)',
@@ -1542,4 +1542,4 @@ const fr: Record<string, string> = {
   'notifications.test.tripText': 'Notification de test pour le voyage "{trip}".',
 }
 
-export default fr
+export default fr

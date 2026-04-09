@@ -71,6 +71,11 @@ export const authApi = {
   },
 }
 
+export const aiApi = {
+  plan: (data: { prompt: string; tripId: number | string; userId: number }) =>
+    apiClient.post('/ai/plan', data).then(r => r.data),
+}
+
 export const tripsApi = {
   list: (params?: Record<string, unknown>) => apiClient.get('/trips', { params }).then(r => r.data),
   create: (data: Record<string, unknown>) => apiClient.post('/trips', data).then(r => r.data),

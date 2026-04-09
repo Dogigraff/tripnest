@@ -269,7 +269,7 @@ const hu: Record<string, string | { name: string; category: string }[]> = {
   'admin.smtp.title': 'E-mail és értesítések',
   'admin.smtp.hint': 'SMTP konfiguráció e-mail értesítések küldéséhez.',
   'admin.smtp.testButton': 'Teszt e-mail küldése',
-  'admin.webhook.hint': 'Értesítések küldése külső webhookra (Discord, Slack stb.).',
+  'admin.webhook.hint': 'Értesítések küldése külső webhookra (AureStudio, Slack stb.).',
   'admin.smtp.testSuccess': 'Teszt e-mail sikeresen elküldve',
   'admin.smtp.testFailed': 'Teszt e-mail küldése sikertelen',
   'dayplan.icsTooltip': 'Naptár exportálása (ICS)',
@@ -1543,4 +1543,4 @@ const hu: Record<string, string | { name: string; category: string }[]> = {
   'notifications.test.tripText': 'Teszt értesítés a(z) "{trip}" utazáshoz.',
 }
 
-export default hu
+export default hu

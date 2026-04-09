@@ -12,6 +12,9 @@ import {
 } from 'lucide-react'
 import type { Reservation, Day, TripFile, AssignmentsMap } from '../../types'
 
+const AVIASALES_AFFILIATE_URL = 'https://www.aviasales.ru/?marker=516199'
+const HOTELLOOK_AFFILIATE_URL = 'https://hotellook.com/?marker=516199&ref=516199'
+
 interface AssignmentLookupEntry {
   dayNumber: number
   dayTitle: string | null
@@ -364,13 +367,49 @@ export default function ReservationsPanel({ tripId, reservations, days, assignme
           </p>
         </div>
         {canEdit && (
-          <button onClick={onAdd} style={{
-            display: 'flex', alignItems: 'center', gap: 5, padding: '7px 14px', borderRadius: 99,
-            border: 'none', background: 'var(--accent)', color: 'var(--accent-text)',
-            fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-          }}>
-            <Plus size={13} /> <span className="hidden sm:inline">{t('reservations.addManual')}</span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+            <button
+              type="button"
+              onClick={() => {
+                window.open(AVIASALES_AFFILIATE_URL, '_blank', 'noopener,noreferrer')
+              }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6, padding: '7px 12px', borderRadius: 99,
+                border: '1px solid var(--border-secondary)', background: 'var(--bg-card)', color: 'var(--text-secondary)',
+                fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-hover)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)' }}
+            >
+              <Plane size={14} />
+              <span className="hidden sm:inline">Find Flights</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                window.open(HOTELLOOK_AFFILIATE_URL, '_blank', 'noopener,noreferrer')
+              }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6, padding: '7px 12px', borderRadius: 99,
+                border: '1px solid var(--border-secondary)', background: 'var(--bg-card)', color: 'var(--text-secondary)',
+                fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-hover)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)' }}
+            >
+              <Hotel size={14} />
+              <span className="hidden sm:inline">Find Hotel</span>
+            </button>
+
+            <button onClick={onAdd} style={{
+              display: 'flex', alignItems: 'center', gap: 5, padding: '7px 14px', borderRadius: 99,
+              border: 'none', background: 'var(--accent)', color: 'var(--accent-text)',
+              fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              <Plus size={13} /> <span className="hidden sm:inline">{t('reservations.addManual')}</span>
+            </button>
+          </div>
         )}
       </div>
 

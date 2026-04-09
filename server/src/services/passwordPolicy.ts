@@ -18,11 +18,10 @@ export function validatePassword(password: string): { ok: boolean; reason?: stri
     return { ok: false, reason: 'Password is too common. Please choose a unique password.' };
   }
 
-  const requirementsMessage = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+  const requirementsMessage = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
   if (!/[A-Z]/.test(password)) return { ok: false, reason: requirementsMessage };
   if (!/[a-z]/.test(password)) return { ok: false, reason: requirementsMessage };
   if (!/[0-9]/.test(password)) return { ok: false, reason: requirementsMessage };
-  if (!/[^A-Za-z0-9]/.test(password)) return { ok: false, reason: requirementsMessage };
 
   return { ok: true };
 }

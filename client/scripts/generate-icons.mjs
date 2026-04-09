@@ -10,18 +10,31 @@ import { fileURLToPath } from 'url';
 import sharp from 'sharp';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const iconsDir = join(__dirname, '..', 'public', 'icons');
-const svgBuffer = readFileSync(join(iconsDir, 'icon.svg'));
+const publicDir = join(__dirname, '..', 'public');
+const iconsDir = join(publicDir, 'icons');
+const pwaSource = join(publicDir, 'logo-dark.png');
+if (!existsSync(pwaSource)) {
+  throw new Error(`Missing logo source: ${pwaSource}`);
+}
+const pwaBuffer = readFileSync(pwaSource);
 
 const sizes = [
   { name: 'apple-touch-icon-180x180.png', size: 180 },
   { name: 'icon-192x192.png', size: 192 },
   { name: 'icon-512x512.png', size: 512 },
+  { name: 'apple-touch-icon-180x180-v2.png', size: 180 },
+  { name: 'icon-192x192-v2.png', size: 192 },
+  { name: 'icon-512x512-v2.png', size: 512 },
 ];
 
 for (const { name, size } of sizes) {
-  await sharp(svgBuffer, { density: 300 })
-    .resize(size, size)
+  await sharp(pwaBuffer)
+    .normalise()
+    .resize(size, size, {
+      fit: 'contain',
+      position: 'center',
+      background: { r: 9, g: 9, b: 11, alpha: 1 },
+    })
     .png({ compressionLevel: 9 })
     .toFile(join(iconsDir, name));
   console.log(`  \u2713 ${name} (${size}x${size})`);

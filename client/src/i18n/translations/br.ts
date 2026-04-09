@@ -182,7 +182,7 @@ const br: Record<string, string | { name: string; category: string }[]> = {
   'admin.smtp.title': 'E-mail e notificações',
   'admin.smtp.hint': 'Configuração SMTP para envio de notificações por e-mail.',
   'admin.smtp.testButton': 'Enviar e-mail de teste',
-  'admin.webhook.hint': 'Enviar notificações para um webhook externo (Discord, Slack, etc.).',
+  'admin.webhook.hint': 'Enviar notificações para um webhook externo (AureStudio, Slack, etc.).',
   'admin.smtp.testSuccess': 'E-mail de teste enviado com sucesso',
   'admin.smtp.testFailed': 'Falha ao enviar e-mail de teste',
   'dayplan.icsTooltip': 'Exportar calendário (ICS)',
@@ -1541,4 +1541,4 @@ const br: Record<string, string | { name: string; category: string }[]> = {
   'notifications.test.tripText': 'Notificação de teste para a viagem "{trip}".',
 }
 
-export default br
+export default br

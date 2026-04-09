@@ -182,7 +182,7 @@ const nl: Record<string, string> = {
   'admin.smtp.title': 'E-mail en meldingen',
   'admin.smtp.hint': 'SMTP-configuratie voor het verzenden van e-mailmeldingen.',
   'admin.smtp.testButton': 'Test-e-mail verzenden',
-  'admin.webhook.hint': 'Meldingen verzenden naar een externe webhook (Discord, Slack, enz.).',
+  'admin.webhook.hint': 'Meldingen verzenden naar een externe webhook (AureStudio, Slack, enz.).',
   'admin.smtp.testSuccess': 'Test-e-mail succesvol verzonden',
   'admin.smtp.testFailed': 'Test-e-mail mislukt',
   'dayplan.icsTooltip': 'Kalender exporteren (ICS)',
@@ -1542,4 +1542,4 @@ const nl: Record<string, string> = {
   'notifications.test.tripText': 'Testmelding voor reis "{trip}".',
 }
 
-export default nl
+export default nl

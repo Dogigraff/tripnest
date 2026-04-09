@@ -187,7 +187,7 @@ const ar: Record<string, string | { name: string; category: string }[]> = {
   'admin.smtp.title': 'البريد والإشعارات',
   'admin.smtp.hint': 'تكوين SMTP لإرسال إشعارات البريد الإلكتروني.',
   'admin.smtp.testButton': 'إرسال بريد تجريبي',
-  'admin.webhook.hint': 'إرسال الإشعارات إلى webhook خارجي (Discord، Slack، إلخ).',
+  'admin.webhook.hint': 'إرسال الإشعارات إلى webhook خارجي (AureStudio، Slack، إلخ).',
   'admin.smtp.testSuccess': 'تم إرسال البريد التجريبي بنجاح',
   'admin.smtp.testFailed': 'فشل إرسال البريد التجريبي',
   'dayplan.icsTooltip': 'تصدير التقويم (ICS)',
@@ -1546,4 +1546,4 @@ const ar: Record<string, string | { name: string; category: string }[]> = {
   'notifications.test.tripText': 'إشعار تجريبي للرحلة "{trip}".',
 }
 
-export default ar
+export default ar

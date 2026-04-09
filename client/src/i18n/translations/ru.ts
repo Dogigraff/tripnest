@@ -182,7 +182,7 @@ const ru: Record<string, string> = {
   'admin.smtp.title': 'Почта и уведомления',
   'admin.smtp.hint': 'Конфигурация SMTP для отправки уведомлений по электронной почте.',
   'admin.smtp.testButton': 'Отправить тестовое письмо',
-  'admin.webhook.hint': 'Отправлять уведомления через внешний webhook (Discord, Slack и т.д.).',
+  'admin.webhook.hint': 'Отправлять уведомления через внешний webhook (AureStudio, Slack и т.д.).',
   'admin.smtp.testSuccess': 'Тестовое письмо успешно отправлено',
   'admin.smtp.testFailed': 'Ошибка отправки тестового письма',
   'dayplan.icsTooltip': 'Экспорт календаря (ICS)',
@@ -1542,4 +1542,4 @@ const ru: Record<string, string> = {
   'notifications.test.tripText': 'Тестовое уведомление для поездки "{trip}".',
 }
 
-export default ru
+export default ru

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Info, Github, Shield, Key, Users, Database, Upload, Clock, Puzzle, CalendarDays, Globe, ArrowRightLeft, Map, Briefcase, ListChecks, Wallet, FileText, Plane } from 'lucide-react'
+import { Info, Shield, Key, Users, Database, Upload, Clock, Puzzle, CalendarDays, Globe, ArrowRightLeft, Map, Briefcase, ListChecks, Wallet, FileText, Plane } from 'lucide-react'
 import { useTranslation } from '../../i18n'
 
 interface DemoTexts {
@@ -50,8 +50,8 @@ const texts: Record<string, DemoTexts> = {
     ],
     whatIs: 'Was ist TripNest?',
     whatIsDesc: 'Ein selbst-gehosteter Reiseplaner mit Echtzeit-Kollaboration, interaktiver Karte, OIDC Login und Dark Mode.',
-    selfHost: 'Open Source — ',
-    selfHostLink: 'selbst hosten',
+    selfHost: 'AureStudio — ',
+    selfHostLink: 'Website',
     close: 'Verstanden',
   },
   en: {
@@ -82,8 +82,8 @@ const texts: Record<string, DemoTexts> = {
     ],
     whatIs: 'What is TripNest?',
     whatIsDesc: 'A self-hosted travel planner with real-time collaboration, interactive maps, OIDC login and dark mode.',
-    selfHost: 'Open source — ',
-    selfHostLink: 'self-host it',
+    selfHost: 'AureStudio — ',
+    selfHostLink: 'website',
     close: 'Got it',
   },
   es: {
@@ -114,8 +114,8 @@ const texts: Record<string, DemoTexts> = {
     ],
     whatIs: '¿Qué es TripNest?',
     whatIsDesc: 'Un planificador de viajes autohospedado con colaboración en tiempo real, mapas interactivos, inicio de sesión OIDC y modo oscuro.',
-    selfHost: 'Código abierto — ',
-    selfHostLink: 'alójalo tú mismo',
+    selfHost: 'AureStudio — ',
+    selfHostLink: 'sitio web',
     close: 'Entendido',
   },
   ar: {
@@ -146,8 +146,8 @@ const texts: Record<string, DemoTexts> = {
     ],
     whatIs: 'ما هو TripNest؟',
     whatIsDesc: 'مخطط رحلات مستضاف ذاتيًا مع تعاون لحظي وخرائط تفاعلية وتسجيل دخول OIDC ووضع داكن.',
-    selfHost: 'مفتوح المصدر — ',
-    selfHostLink: 'استضفه بنفسك',
+    selfHost: 'AureStudio — ',
+    selfHostLink: 'الموقع',
     close: 'فهمت',
   },
 }
@@ -275,9 +275,9 @@ export default function DemoBanner(): React.ReactElement | null {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#9ca3af' }}>
-            <Github size={13} />
+            <Globe size={13} />
             <span>{t.selfHost}</span>
-            <a href="https://github.com/mauriceboe/TripNest" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.aurestudio.ru/" target="_blank" rel="noopener noreferrer"
               style={{ color: '#111827', fontWeight: 600, textDecoration: 'none' }}>
               {t.selfHostLink}
             </a>

@@ -33,11 +33,9 @@ describe('validatePassword', () => {
       expect(result.reason).toContain('number');
     });
 
-    it('AUTH-006: rejects password missing a special character', () => {
-      // 'NestApp1' — has upper, lower, number, NO special char, NOT in blocklist
-      const result = validatePassword('NestApp1');
-      expect(result.ok).toBe(false);
-      expect(result.reason).toContain('special character');
+    it('AUTH-006: accepts password with upper, lower, and number without special character', () => {
+      expect(validatePassword('NestApp1')).toEqual({ ok: true });
+      expect(validatePassword('DuRaCel1')).toEqual({ ok: true });
     });
   });
 
